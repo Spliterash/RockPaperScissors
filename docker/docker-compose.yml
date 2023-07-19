@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: rps
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 3305:80
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    depends_on:
+      - mysql
+  server:
+    image: openjdk:17
+    ports:
+      - 1047:1047
+    restart: on-failure
+    depends_on:
+      - mysql
+    working_dir: /mnt/app
+    command: java -jar server.jar
+    volumes:
+      - ./jars/server.jar:/mnt/app/server.jar
+      - ./application.yml:/mnt/app/application.yml

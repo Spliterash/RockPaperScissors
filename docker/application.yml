@@ -1,0 +1,9 @@
+kryonet:
+  port: 1047
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/rps
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    connectionTimeout: 10000
